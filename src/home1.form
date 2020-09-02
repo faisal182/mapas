@@ -224,7 +224,7 @@
                                               </Group>
                                               <Group type="102" alignment="1" attributes="0">
                                                   <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace pref="11" max="32767" attributes="0"/>
+                                                  <EmptySpace pref="76" max="32767" attributes="0"/>
                                                   <Component id="txtProteinKasar" min="-2" pref="58" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -262,7 +262,11 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txtH30" min="-2" pref="52" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="txtH30" min="-2" pref="52" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
                                       <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
@@ -353,7 +357,7 @@
                                       <Component id="txtBeratSegar" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel36" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="txtProteinKasar" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel37" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -402,6 +406,7 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="txtH25" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtH30" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -416,7 +421,7 @@
                               <Component id="txtTotalEnergi" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel45" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="37" max="32767" attributes="0"/>
+                          <EmptySpace pref="31" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -887,6 +892,11 @@
                 <Component class="javax.swing.JLabel" name="jLabel45">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="TOTAL"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="jButton1"/>
                   </Properties>
                 </Component>
               </SubComponents>
