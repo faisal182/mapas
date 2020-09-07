@@ -5,6 +5,10 @@
  */
 package page;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author HP
@@ -14,9 +18,16 @@ public class AddPakan extends javax.swing.JDialog {
     /**
      * Creates new form AddPakan
      */
-    public AddPakan(java.awt.Frame parent, boolean modal) {
+    private static boolean isAddNew = true;
+    public AddPakan(java.awt.Frame parent, boolean modal, String idPakan) {
         super(parent, modal);
         initComponents();
+        
+       if(idPakan != null){
+           isAddNew = false;
+           tampilPakan(idPakan);
+           
+       }
     }
 
     /**
@@ -36,9 +47,9 @@ public class AddPakan extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtNamaPakan = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbJenisPakan = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        simpanPakan = new javax.swing.JLabel();
         txtBeratKering = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtProteinKasar = new javax.swing.JTextField();
@@ -72,16 +83,21 @@ public class AddPakan extends javax.swing.JDialog {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
         jPanel1.add(txtNamaPakan, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 160, 40));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Peranakan Ongole", "Simental", "Brangus", "PO Brahman", "Limousin" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 160, 40));
+        cmbJenisPakan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Peranakan Ongole", "Simental", "Brangus", "PO Brahman", "Limousin" }));
+        jPanel1.add(cmbJenisPakan, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 160, 40));
 
         jPanel3.setBackground(new java.awt.Color(153, 0, 0));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("SIMPAN");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+        simpanPakan.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        simpanPakan.setForeground(new java.awt.Color(255, 255, 255));
+        simpanPakan.setText("SIMPAN");
+        simpanPakan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                simpanPakanMouseClicked(evt);
+            }
+        });
+        jPanel3.add(simpanPakan, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 160, 40));
         jPanel1.add(txtBeratKering, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 160, 40));
@@ -110,6 +126,16 @@ public class AddPakan extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void simpanPakanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_simpanPakanMouseClicked
+        // TODO add your handling code here:
+        if(isAddNew == true){
+            simpanPakan();
+        }else{
+            updatePakan();
+        }
+        
+    }//GEN-LAST:event_simpanPakanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -141,7 +167,7 @@ public class AddPakan extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddPakan dialog = new AddPakan(new javax.swing.JFrame(), true);
+                AddPakan dialog = new AddPakan(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -152,13 +178,113 @@ public class AddPakan extends javax.swing.JDialog {
             }
         });
     }
+    
+    private void tampilPakan(String idPakan){
+         try {
+            Connection con = new database.connection().configDB();
+            String sql = "SELECT * FROM pakan WHERE id_pakan = '"+idPakan+"'";
+            java.sql.Statement stat = con.createStatement();
+            java.sql.ResultSet hasil = stat.executeQuery(sql);
+            
+            if (hasil.next()) {
+                txtIdPakan.setText(hasil.getString("id_pakan"));
+                txtNamaPakan.setText(hasil.getString("nama_pakan"));
+                cmbJenisPakan.setSelectedItem(hasil.getString("jenis_pakan"));
+                txtBeratKering.setText(hasil.getString("berat_kering"));
+                txtProteinKasar.setText(hasil.getString("protein_kasar"));
+                txtEnergi.setText(hasil.getString("energi"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal menampilkan Frame!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            this.setVisible(false);
+        }
+    }
+    
+    private void simpanPakan(){
+        String idPakan, namaPakan, jenisPakan;
+        double bk, pk, energi;
+        
+        idPakan = txtIdPakan.getText();
+        namaPakan = txtNamaPakan.getText();
+        bk = Double.parseDouble(txtBeratKering.getText()) ;
+        pk = Double.parseDouble(txtProteinKasar.getText()) ;
+        energi = Double.parseDouble(txtEnergi.getText()) ;
+        jenisPakan = cmbJenisPakan.getSelectedItem().toString();
+        
+        if (empty(idPakan) || empty(namaPakan) || empty(jenisPakan) || bk==0 || pk==0 || energi==0 )  {
+            JOptionPane.showMessageDialog(null, "Data yang Anda masukkan belum lengkap!", "Peringatan!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                Connection con = new database.connection().configDB();
+                String get = "SELECT * FROM pakan WHERE id_pakan = '"+idPakan+"'";
+                java.sql.Statement st = con.createStatement();
+                java.sql.ResultSet hasil = st.executeQuery(get);
+                
+                if (hasil.next()) {
+                    JOptionPane.showMessageDialog(null, "Id Pakan tidak boleh ada yang sama.", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        String sql = "INSERT INTO pakan VALUES (?, ?, ?, ?, ?, ?)";
+                        java.sql.PreparedStatement stat = (PreparedStatement)con.prepareStatement(sql);
+                        stat.setString(1, idPakan);
+                        stat.setString(2, namaPakan);
+                        stat.setString(3, jenisPakan);
+                        stat.setDouble(4, bk);
+                        stat.setDouble(5, pk);
+                        stat.setDouble(6, energi);
+                        stat.executeUpdate();
+                        
 
+                        this.setVisible(false);
+                        JOptionPane.showMessageDialog(null, "Data BERHASIL Ditambahkan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "GAGAL Menambahkan Data", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } catch (Exception e) {}
+        }
+    }
+    
+    private void updatePakan(){
+        String idPakan, namaPakan, jenisPakan;
+        double bk, pk, energi;
+        
+        idPakan = txtIdPakan.getText();
+        namaPakan = txtNamaPakan.getText();
+        bk = Double.parseDouble(txtBeratKering.getText()) ;
+        pk = Double.parseDouble(txtProteinKasar.getText()) ;
+        energi = Double.parseDouble(txtEnergi.getText()) ;
+        jenisPakan = cmbJenisPakan.getSelectedItem().toString();
+        
+        if (!empty(idPakan) || !empty(namaPakan) || !empty(jenisPakan)) {
+            try {
+                Connection con = new database.connection().configDB();
+                String sql = "UPDATE pakan SET jenis_pakan = ?, berat_kering = ?, protein_kasar = ?, energi = ? WHERE id_pakan = '"+idPakan+"'";
+                java.sql.PreparedStatement stat = con.prepareStatement(sql);
+                stat.setString(1, jenisPakan);
+                stat.setDouble(2, bk);
+                stat.setDouble(3, pk);
+                stat.setDouble(4, energi);
+                stat.executeUpdate();
+                
+                this.setVisible(false);
+                JOptionPane.showMessageDialog(null, "Data BERHASIL Diubah", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+           
+             } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "GAGAL Mengubah Data", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+     private static boolean empty(final String s) {
+        return s == null || s.trim().isEmpty();
+    }
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbJenisPakan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -166,6 +292,7 @@ public class AddPakan extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel simpanPakan;
     private javax.swing.JTextField txtBeratKering;
     private javax.swing.JTextField txtEnergi;
     private javax.swing.JTextField txtIdPakan;

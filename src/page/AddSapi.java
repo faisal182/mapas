@@ -5,6 +5,11 @@
  */
 package page;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author HP
@@ -14,9 +19,17 @@ public class AddSapi extends javax.swing.JDialog {
     /**
      * Creates new form AddSapi
      */
-    public AddSapi(java.awt.Frame parent, boolean modal) {
+    public static boolean isAddNew = true;
+    
+    public AddSapi(java.awt.Frame parent, boolean modal, String noReg) {
         super(parent, modal);
         initComponents();
+        
+        if(noReg != null){
+            isAddNew = false;
+            tampilByNoReg(noReg);
+            
+        }
     }
 
     /**
@@ -31,12 +44,12 @@ public class AddSapi extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNoRegSapi = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtBobotAwal = new javax.swing.JTextField();
+        cmbJenisSapi = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -52,10 +65,15 @@ public class AddSapi extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("X");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 40));
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 160, 40));
+        jPanel1.add(txtNoRegSapi, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 160, 40));
 
         jLabel1.setText("No reg sapi");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
@@ -65,10 +83,10 @@ public class AddSapi extends javax.swing.JDialog {
 
         jLabel4.setText("Bobot Awal");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 160, 40));
+        jPanel1.add(txtBobotAwal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 160, 40));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Peranakan Ongole", "Simental", "Brangus", "PO Brahman", "Limousin" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 160, 40));
+        cmbJenisSapi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Peranakan Ongole", "Simental", "Brangus", "PO Brahman", "Limousin" }));
+        jPanel1.add(cmbJenisSapi, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 160, 40));
 
         jPanel3.setBackground(new java.awt.Color(153, 0, 0));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -76,6 +94,11 @@ public class AddSapi extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("SIMPAN");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 160, 40));
@@ -85,6 +108,21 @@ public class AddSapi extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+        if(isAddNew == true){
+            addNew();
+        }else{
+            updateSapi();
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+      
     /**
      * @param args the command line arguments
      */
@@ -115,7 +153,7 @@ public class AddSapi extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddSapi dialog = new AddSapi(new javax.swing.JFrame(), true);
+                AddSapi dialog = new AddSapi(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -126,9 +164,97 @@ public class AddSapi extends javax.swing.JDialog {
             }
         });
     }
+    
+    private void tampilByNoReg(String noReg){
+         try {
+            Connection con = new database.connection().configDB();
+            String sql = "SELECT * FROM sapi WHERE no_reg = '"+noReg+"'";
+            java.sql.Statement stat = con.createStatement();
+            java.sql.ResultSet hasil = stat.executeQuery(sql);
+            
+            if (hasil.next()) {
+                txtNoRegSapi.setText(hasil.getString("no_reg"));
+                txtBobotAwal.setText(hasil.getString("bobot_awal"));
+                cmbJenisSapi.setSelectedItem(hasil.getString("jenis"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal menampilkan Frame!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            this.setVisible(false);
+        }
+    }
+    
+    private void addNew(){
+        String noRegSapi, jenisSapi;
+        int bobotSapi;
+        
+        noRegSapi = txtNoRegSapi.getText();
+        jenisSapi = cmbJenisSapi.getSelectedItem().toString();
+        bobotSapi = Integer.parseInt(txtBobotAwal.getText());
+        Date createdDate = new Date();
+       
+        
+        if (empty(noRegSapi) || empty(jenisSapi) || bobotSapi==0) {
+            JOptionPane.showMessageDialog(null, "Data yang Anda masukkan belum lengkap!", "Peringatan!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                Connection con = new database.connection().configDB();
+                String get = "SELECT * FROM sapi WHERE no_reg = '"+noRegSapi+"'";
+                java.sql.Statement st = con.createStatement();
+                java.sql.ResultSet hasil = st.executeQuery(get);
+                
+                if (hasil.next()) {
+                    JOptionPane.showMessageDialog(null, "Nomor Registrasi sapi tidak boleh ada yang sama.", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        String sql = "INSERT INTO sapi VALUES (?, ?, ?)";
+                        java.sql.PreparedStatement stat = (PreparedStatement)con.prepareStatement(sql);
+                        stat.setString(1, noRegSapi);
+                        stat.setString(2, jenisSapi);
+                        stat.setInt(3, bobotSapi);
+                        stat.executeUpdate();
+
+                        this.setVisible(false);
+                        JOptionPane.showMessageDialog(null, "Data BERHASIL Ditambahkan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "GAGAL Menambahkan Data", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } catch (Exception e) {}
+        }
+    }
+    
+    public void updateSapi(){
+        String noRegSapi, jenisSapi;
+        int bobotSapi;
+        
+        noRegSapi = txtNoRegSapi.getText();
+        jenisSapi = cmbJenisSapi.getSelectedItem().toString();
+        bobotSapi = Integer.parseInt(txtBobotAwal.getText());
+        
+        if (!empty(noRegSapi) || !empty(jenisSapi) || bobotSapi!=0) {
+            try {
+                Connection con = new database.connection().configDB();
+                String sql = "UPDATE sapi SET jenis = ?, bobot_awal = ? WHERE no_reg = '"+noRegSapi+"'";
+                java.sql.PreparedStatement stat = con.prepareStatement(sql);
+                stat.setString(1, jenisSapi);
+                stat.setInt(2, bobotSapi);
+                stat.executeUpdate();
+                
+                this.setVisible(false);
+                JOptionPane.showMessageDialog(null, "Data BERHASIL Diubah", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+           
+             } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "GAGAL Mengubah Data", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private static boolean empty(final String s) {
+        return s == null || s.trim().isEmpty();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbJenisSapi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -137,7 +263,7 @@ public class AddSapi extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtBobotAwal;
+    private javax.swing.JTextField txtNoRegSapi;
     // End of variables declaration//GEN-END:variables
 }

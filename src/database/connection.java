@@ -17,14 +17,15 @@ public class connection {
     static Statement mysqlstm;
     public Connection configDB() {
         try {
-            String url = "jdbc:mysql://localhost:3306/mapas";
-            String user = "root";
-            String pass = "";
+            String url = "jdbc:mysql://192.168.64.2:3306/mapas";
+            String user = "edidoys";
+            String pass = "edidoys";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             mysqlconfig = DriverManager.getConnection(url, user, pass);
             mysqlstm = mysqlconfig.createStatement();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Koneksi GAGAL!\n"+e);
+            System.out.println(e);
         }
         return mysqlconfig;
     }
