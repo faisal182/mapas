@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelPakan;
+import model.Persentase;
 import utils.KalkulasiUtils;
 
 /*
@@ -49,10 +50,24 @@ public class home1 extends javax.swing.JFrame {
             return false;
         }
     };
+    
+    DefaultTableModel tblInputPakan = new DefaultTableModel() {
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     public home1() {
         initComponents();
         //tampilSapi();
-        //tampilPakan();
+        tampilPakan();
+        
+        Object []baris = {"Nama Pakan", "Persen"};
+        tblInputPakan = new DefaultTableModel(null, baris) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbInputPakan.setModel(tblInputPakan);
     }
 
     /**
@@ -113,12 +128,12 @@ public class home1 extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        tbInputPakan = new javax.swing.JTable();
+        cmbPakan = new javax.swing.JComboBox<>();
         jLabel43 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtH5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtPersenPakan = new javax.swing.JTextField();
+        btnInputPakan = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
@@ -192,12 +207,12 @@ public class home1 extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jTabbedPane1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jTabbedPane1AncestorMoved(evt);
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-                jTabbedPane1AncestorMoved(evt);
             }
         });
 
@@ -442,12 +457,12 @@ public class home1 extends javax.swing.JFrame {
         jLabel44.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel44.setText("Tabel Kandungan Nutrisi Pakan");
         jPanel4.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, -1, -1));
-        jPanel4.add(txtTotalBk, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 510, 68, -1));
-        jPanel4.add(txtTotalPk, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 510, 68, -1));
-        jPanel4.add(txtTotalEnergi, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 510, 68, -1));
+        jPanel4.add(txtTotalBk, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 510, 68, -1));
+        jPanel4.add(txtTotalPk, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 510, 68, -1));
+        jPanel4.add(txtTotalEnergi, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 510, 68, -1));
 
         jLabel45.setText("TOTAL");
-        jPanel4.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 510, -1, -1));
+        jPanel4.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 510, -1, 20));
 
         btnKalkulasi.setBackground(new java.awt.Color(153, 0, 0));
         btnKalkulasi.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -478,7 +493,7 @@ public class home1 extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Input Pakan"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbInputPakan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -491,23 +506,31 @@ public class home1 extends javax.swing.JFrame {
                 "Title 1", "Title 2"
             }
         ));
-        jScrollPane5.setViewportView(jTable1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jerami Padi Kering", "Dedak Padi Halus", "Tepung Terigu", "Tepung Jagung", "Ampas Tahu", "Ampas Kecap" }));
+        jScrollPane5.setViewportView(tbInputPakan);
 
         jLabel43.setText("Input Pakan");
 
         jLabel7.setText("Persen");
 
-        jButton1.setBackground(new java.awt.Color(153, 0, 0));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Simpan");
+        btnInputPakan.setBackground(new java.awt.Color(153, 0, 0));
+        btnInputPakan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnInputPakan.setForeground(new java.awt.Color(255, 255, 255));
+        btnInputPakan.setText("Simpan");
+        btnInputPakan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInputPakanMouseClicked(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(153, 0, 0));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Hapus");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -522,15 +545,13 @@ public class home1 extends javax.swing.JFrame {
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(jLabel43)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jComboBox1, 0, 122, Short.MAX_VALUE))
+                            .addComponent(cmbPakan, 0, 122, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(17, 17, 17))
-                            .addComponent(txtH5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                            .addComponent(jLabel7)
+                            .addComponent(txtPersenPakan, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addComponent(btnInputPakan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
                 .addContainerGap())
@@ -542,13 +563,13 @@ public class home1 extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel43)
                         .addGap(5, 5, 5)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmbPakan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtH5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)
+                            .addComponent(txtPersenPakan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInputPakan)
                             .addComponent(jButton2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -740,7 +761,7 @@ public class home1 extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+            .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("MASTER SAPI", jPanel5);
@@ -1069,7 +1090,7 @@ public class home1 extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+            .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("LAPORAN", jPanel8);
@@ -1091,7 +1112,7 @@ public class home1 extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -1229,26 +1250,20 @@ public class home1 extends javax.swing.JFrame {
         double rasioKonsentrat = KalkulasiUtils.beratPakanByRasio(40, ransum);
         double rasioHijauan = KalkulasiUtils.beratPakanByRasio(60, ransum);
 
-        List<ModelPakan> listPakan = findAllPakan();
+    
 
-        //         Map<String,ModelPakan> mapPakanById = listPakan.stream()
-        //                 .collect(Collectors.toMap(ModelPakan::getIdPakan, pakan -> pakan));
-        Map<String,Integer> persentase = new HashMap();
+        
+        Map<String,Double> persenDouble = new HashMap();
+        List<String> listInputPakan = new ArrayList();
+       
+        for (int i=0; i < tbInputPakan.getRowCount(); i++){    
+            String pakan = tbInputPakan.getValueAt(i, 0).toString();
+            double persen = (Double) tbInputPakan.getValueAt(i, 1);
+            persenDouble.put(pakan,persen);
+            listInputPakan.add(pakan);
+        }
 
-        persentase.put("H01", 100);
-        persentase.put("K01", 20);
-        persentase.put("K02", 25);
-        persentase.put("K03", 12);
-        persentase.put("K04", 23);
-        persentase.put("K05", 20);
-
-        Map<String,List<ModelPakan>> mapPakanByJenis = listPakan.stream()
-        .collect(Collectors
-            .groupingBy(ModelPakan::getJenisPakan, HashMap::new, Collectors.toCollection(ArrayList::new)));
-
-        //setPersentase general
-        double persenHijauan =  100 / mapPakanByJenis.get(HIJAUAN).size();
-        double persenKonsentrat = 100 / mapPakanByJenis.get(KONSENTRAT).size();
+        List<ModelPakan> listPakan = findPakanByList(listInputPakan);
 
         List<ModelPakan> pakanCalculatedList = new ArrayList<>();
 
@@ -1258,24 +1273,9 @@ public class home1 extends javax.swing.JFrame {
             calculated.setNamaPakan(pakan.getNamaPakan());
 
             if(pakan.getJenisPakan().equalsIgnoreCase(HIJAUAN)){
-                calculated.setJenisPakan(pakan.getJenisPakan());
-                double pers = persentase.get(pakan.getIdPakan());
-                double aktualBeratPakan = pers/100 * rasioHijauan;
-                calculated.setBeratKering(aktualBeratPakan);
-                calculated.setEnergi(KalkulasiUtils.nilaiNutrisi(pakan.getEnergi(), aktualBeratPakan));
-                calculated.setProteinKasar(KalkulasiUtils.nilaiNutrisi(pakan.getProteinKasar(), aktualBeratPakan));
-
-                calculated.setBeratSegar(KalkulasiUtils.bahanSegarPakan(aktualBeratPakan, pakan.getBeratKering()));
-
+                setNutrisiByPersentase(calculated, pakan, persenDouble, rasioHijauan);  
             }else if (pakan.getJenisPakan().equals(KONSENTRAT)){
-                calculated.setJenisPakan(pakan.getJenisPakan());
-                double pers = persentase.get(pakan.getIdPakan());
-                double aktualBeratPakan = pers/100 * rasioKonsentrat;
-
-                calculated.setBeratKering(aktualBeratPakan);
-                calculated.setEnergi(KalkulasiUtils.nilaiNutrisi(pakan.getEnergi(), aktualBeratPakan));
-                calculated.setProteinKasar(KalkulasiUtils.nilaiNutrisi(pakan.getProteinKasar(), aktualBeratPakan));
-                calculated.setBeratSegar(KalkulasiUtils.bahanSegarPakan(aktualBeratPakan, pakan.getBeratKering()));
+                setNutrisiByPersentase(calculated, pakan, persenDouble, rasioKonsentrat);
             }
             pakanCalculatedList.add(calculated);
         }
@@ -1345,6 +1345,7 @@ public class home1 extends javax.swing.JFrame {
     private void txtNoRegKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoRegKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             searchSapi();
+            
         }
     }//GEN-LAST:event_txtNoRegKeyPressed
 
@@ -1355,6 +1356,21 @@ public class home1 extends javax.swing.JFrame {
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void btnInputPakanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInputPakanMouseClicked
+        // TODO add your handling code here:
+        String pakan = cmbPakan.getSelectedItem().toString();
+        double persen = Double.parseDouble(txtPersenPakan.getText());
+       
+        Object[] data = {pakan, persen};
+        tblInputPakan.addRow(data);
+        
+    }//GEN-LAST:event_btnInputPakanMouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        int baris = tbInputPakan.getSelectedRow();
+        tblInputPakan.removeRow(baris);
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1391,6 +1407,17 @@ public class home1 extends javax.swing.JFrame {
         });
     }
     
+    private void setNutrisiByPersentase(ModelPakan calculated, ModelPakan pakan, Map<String,Double> persentase, double rasio){
+        calculated.setJenisPakan(pakan.getJenisPakan());
+        double pers = persentase.get(pakan.getNamaPakan());
+        double aktualBeratPakan = pers/100 * rasio;
+
+        calculated.setBeratKering(aktualBeratPakan);
+        calculated.setEnergi(KalkulasiUtils.nilaiNutrisi(pakan.getEnergi(), aktualBeratPakan));
+        calculated.setProteinKasar(KalkulasiUtils.nilaiNutrisi(pakan.getProteinKasar(), aktualBeratPakan));
+        calculated.setBeratSegar(KalkulasiUtils.bahanSegarPakan(aktualBeratPakan, pakan.getBeratKering()));
+    }
+    
     private void searchSapi() {
         String reg = txtNoReg.getText();
         try {
@@ -1414,11 +1441,15 @@ public class home1 extends javax.swing.JFrame {
         }
     }
     
-    private List<ModelPakan> findAllPakan(){
+    private List<ModelPakan> findPakanByList(List<String> listPakanInput){
         List<ModelPakan> listPakan = new ArrayList<>();
+        String queryName = listPakanInput.stream()
+               .map(s -> "'"+s+"'")
+               .collect(Collectors.joining(",", "(", ")"));
         try {
             Connection con = new database.connection().configDB();
-            String sql = "SELECT * FROM pakan ORDER BY id_pakan ASC";
+            String sql = "SELECT * FROM pakan WHERE nama_pakan IN "+queryName+" "
+                    + " ORDER BY id_pakan ASC";
             java.sql.Statement stmt = con.createStatement();
             java.sql.ResultSet hasil = stmt.executeQuery(sql);
             
@@ -1496,6 +1527,7 @@ public class home1 extends javax.swing.JFrame {
                 
                 Object[] data = {no, idPakan, namaPakan, jenisPakan, beratKering, proteinKasar, energi};
                 tblPakan.addRow(data);
+                cmbPakan.addItem(namaPakan);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Gagal Menampilkan DATA!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
@@ -1503,15 +1535,15 @@ public class home1 extends javax.swing.JFrame {
             dispose();
         }
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnInputPakan;
     private javax.swing.JPanel btnKalPak;
     private javax.swing.JPanel btnKalkulasi;
+    private javax.swing.JComboBox<String> cmbPakan;
     private javax.swing.JLabel hapusPakan;
     private javax.swing.JLabel hapusSapi;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
@@ -1580,13 +1612,13 @@ public class home1 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable4;
     private javax.swing.JLabel perbaharuiPakan;
     private javax.swing.JLabel perbaharuiSapi;
     private javax.swing.JLabel tambahK;
     private javax.swing.JLabel tambahPakan;
     private javax.swing.JLabel tambahSapi;
+    private javax.swing.JTable tbInputPakan;
     private javax.swing.JTable tbKalkulasi;
     private javax.swing.JTable tbPakan;
     private javax.swing.JTable tbSapi;
@@ -1594,11 +1626,11 @@ public class home1 extends javax.swing.JFrame {
     private javax.swing.JTextField txtBobotAwal;
     private javax.swing.JTextField txtBobotHarapan;
     private javax.swing.JTextField txtEnergi;
-    private javax.swing.JTextField txtH5;
     private javax.swing.JTextField txtJenisSapi;
     private javax.swing.JTextField txtJmlHari;
     private javax.swing.JTextField txtNoReg;
     private javax.swing.JTextField txtPbbh;
+    private javax.swing.JTextField txtPersenPakan;
     private javax.swing.JTextField txtProteinKasar;
     private javax.swing.JTextField txtTotalBk;
     private javax.swing.JTextField txtTotalEnergi;
