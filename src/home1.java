@@ -447,7 +447,7 @@ public class home1 extends javax.swing.JFrame {
         jPanel4.add(txtTotalEnergi, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 510, 68, -1));
 
         jLabel45.setText("TOTAL");
-        jPanel4.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 520, -1, -1));
+        jPanel4.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 510, -1, -1));
 
         btnKalkulasi.setBackground(new java.awt.Color(153, 0, 0));
         btnKalkulasi.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -550,12 +550,12 @@ public class home1 extends javax.swing.JFrame {
                             .addComponent(txtH5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1)
                             .addComponent(jButton2))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, -1, 170));
+        jPanel4.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, 180));
 
         jTabbedPane1.addTab("HOME", jPanel4);
 
