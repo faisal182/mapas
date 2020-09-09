@@ -60,8 +60,9 @@ public class home1 extends javax.swing.JFrame {
     };
     public home1() {
         initComponents();
-        //tampilSapi();
+        tampilSapi();
         tampilPakan();
+        
         
         Object []baris = {"Nama Pakan", "Persen"};
         tblInputPakan = new DefaultTableModel(null, baris) {
@@ -70,8 +71,27 @@ public class home1 extends javax.swing.JFrame {
             }
         };
         tbInputPakan.setModel(tblInputPakan);
+        aturTextField();
     }
 
+    private void aturTextField(){
+    txtBobotAwal.setEnabled(false);
+    txtJenisSapi.setEnabled(false);
+    txtPbbh.setEnabled(false);
+    txtJmlHari.setEnabled(false);
+    txtBobotHarapan.setEnabled(false);
+    txtBeratKering.setEnabled(false);
+    txtProteinKasar.setEnabled(false);
+    txtEnergi.setEnabled(false);
+    txtTotalBk.setEnabled(false);
+    txtTotalPk.setEnabled(false);
+    txtTotalEnergi.setEnabled(false);
+    cmbPakan.setEnabled(false);
+    txtPersenPakan.setEnabled(false);
+    btnInputPakan.setEnabled(false);
+    btnHapusPakan.setEnabled(false);
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -136,7 +156,7 @@ public class home1 extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtPersenPakan = new javax.swing.JTextField();
         btnInputPakan = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnHapusPakan = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
@@ -223,12 +243,12 @@ public class home1 extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jTabbedPane1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jTabbedPane1AncestorMoved(evt);
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-                jTabbedPane1AncestorMoved(evt);
             }
         });
 
@@ -538,13 +558,13 @@ public class home1 extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(153, 0, 0));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Hapus");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnHapusPakan.setBackground(new java.awt.Color(153, 0, 0));
+        btnHapusPakan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnHapusPakan.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapusPakan.setText("Hapus");
+        btnHapusPakan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                btnHapusPakanMouseClicked(evt);
             }
         });
 
@@ -569,7 +589,7 @@ public class home1 extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(btnInputPakan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(btnHapusPakan)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -586,7 +606,7 @@ public class home1 extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPersenPakan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnInputPakan)
-                            .addComponent(jButton2))))
+                            .addComponent(btnHapusPakan))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1323,36 +1343,36 @@ public class home1 extends javax.swing.JFrame {
         txtTotalBk.setText(df2.format(beratKeringTotal));
         txtTotalEnergi.setText(df2.format(energiTotal));
         txtTotalPk.setText(df2.format(proteinTotal));
-        txtTotalBk.setEnabled(false);
-        txtTotalEnergi.setEnabled(false);
-        txtTotalPk.setEnabled(false);
+        
     }//GEN-LAST:event_btnKalPakMouseClicked
     
     private void btnKalkulasiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKalkulasiMouseClicked
         int bobotAwal = Integer.parseInt(txtBobotAwal.getText());
         double pbbh = Double.parseDouble(txtPbbh.getText());
         int jmlHari = Integer.parseInt(txtJmlHari.getText());
-        
+        cmbPakan.setEnabled(true);
+        txtPersenPakan.setEnabled(true);
+        btnInputPakan.setEnabled(true);
+        btnHapusPakan.setEnabled(true);
 
         //hitung Bobot Ideal
-        txtBobotHarapan.setEnabled(false);
         txtBobotHarapan.setText(df2.format(KalkulasiUtils.bobotHarapan(jmlHari, pbbh, bobotAwal)));
         
 
         //hitung bahanKering
         double ransum = KalkulasiUtils.ransum(bobotAwal);
         txtBeratKering.setText(df2.format(ransum));
-        txtBeratKering.setEnabled(false);
+        
 
         //hitung total PK
         double kebProteinMin = KalkulasiUtils.kebProteinMin(ransum);
         txtProteinKasar.setText(df2.format(kebProteinMin));
-        txtProteinKasar.setEnabled(false);
+        
 
         //hitung total Energi
         double kebEnergiMin = KalkulasiUtils.kebEnergiMin(ransum);
         txtEnergi.setText(df2.format(kebEnergiMin));
-        txtEnergi.setEnabled(false);
+        
     }//GEN-LAST:event_btnKalkulasiMouseClicked
 
     private void txtBobotHarapanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBobotHarapanActionPerformed
@@ -1374,6 +1394,8 @@ public class home1 extends javax.swing.JFrame {
     private void txtNoRegKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoRegKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             searchSapi();
+            txtPbbh.setEnabled(true);
+            txtJmlHari.setEnabled(true);
             
         }
     }//GEN-LAST:event_txtNoRegKeyPressed
@@ -1396,10 +1418,10 @@ public class home1 extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnInputPakanMouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void btnHapusPakanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusPakanMouseClicked
         int baris = tbInputPakan.getSelectedRow();
         tblInputPakan.removeRow(baris);
-    }//GEN-LAST:event_jButton2MouseClicked
+    }//GEN-LAST:event_btnHapusPakanMouseClicked
 
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
         // TODO add your handling code here:
@@ -1475,9 +1497,7 @@ public class home1 extends javax.swing.JFrame {
                 String bobot = hasil.getString("bobot_awal");
                 
                 txtJenisSapi.setText(jenis);
-                txtJenisSapi.setEnabled(false);
                 txtBobotAwal.setText(bobot);
-                txtBobotAwal.setEnabled(false);
                 
                 
             }
@@ -1586,6 +1606,7 @@ public class home1 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbout;
     private javax.swing.JLabel btnClose;
+    private javax.swing.JButton btnHapusPakan;
     private javax.swing.JButton btnInputPakan;
     private javax.swing.JPanel btnKalPak;
     private javax.swing.JPanel btnKalkulasi;
@@ -1593,7 +1614,6 @@ public class home1 extends javax.swing.JFrame {
     private javax.swing.JPanel footer;
     private javax.swing.JLabel hapusPakan;
     private javax.swing.JLabel hapusSapi;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;

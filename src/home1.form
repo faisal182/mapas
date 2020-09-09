@@ -797,7 +797,7 @@
                                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                       <Component id="btnInputPakan" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnHapusPakan" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -819,7 +819,7 @@
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="txtPersenPakan" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="btnInputPakan" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnHapusPakan" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -906,7 +906,7 @@
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnInputPakanMouseClicked"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton2">
+                    <Component class="javax.swing.JButton" name="btnHapusPakan">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="0" green="0" red="99" type="rgb"/>
@@ -920,7 +920,7 @@
                         <Property name="text" type="java.lang.String" value="Hapus"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton2MouseClicked"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnHapusPakanMouseClicked"/>
                       </Events>
                     </Component>
                   </SubComponents>
