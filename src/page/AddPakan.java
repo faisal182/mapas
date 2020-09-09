@@ -83,7 +83,7 @@ public class AddPakan extends javax.swing.JDialog {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
         jPanel1.add(txtNamaPakan, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 160, 40));
 
-        cmbJenisPakan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Peranakan Ongole", "Simental", "Brangus", "PO Brahman", "Limousin" }));
+        cmbJenisPakan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hijauan", "Konsentrat" }));
         jPanel1.add(cmbJenisPakan, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 160, 40));
 
         jPanel3.setBackground(new java.awt.Color(153, 0, 0));
@@ -259,12 +259,13 @@ public class AddPakan extends javax.swing.JDialog {
         if (!empty(idPakan) || !empty(namaPakan) || !empty(jenisPakan)) {
             try {
                 Connection con = new database.connection().configDB();
-                String sql = "UPDATE pakan SET jenis_pakan = ?, berat_kering = ?, protein_kasar = ?, energi = ? WHERE id_pakan = '"+idPakan+"'";
+                String sql = "UPDATE pakan SET jenis_pakan = ?, berat_kering = ?, protein_kasar = ?, energi = ?, nama_pakan = ? WHERE id_pakan = '"+idPakan+"'";
                 java.sql.PreparedStatement stat = con.prepareStatement(sql);
                 stat.setString(1, jenisPakan);
                 stat.setDouble(2, bk);
                 stat.setDouble(3, pk);
                 stat.setDouble(4, energi);
+                stat.setString(5, namaPakan);
                 stat.executeUpdate();
                 
                 this.setVisible(false);
