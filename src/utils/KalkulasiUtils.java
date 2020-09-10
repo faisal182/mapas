@@ -18,8 +18,8 @@ public class KalkulasiUtils {
        return (jmlHari * indeksPbbh) + bobotAwal;
    }
    
-   public static double ransum(int bobot){
-       return bobot * 0.035;
+   public static double ransum(int bobot, double indeks){
+       return bobot * indeks / 100;
    }
    
    public static double beratPakanByRasio(double rasio, double bahanKeringSapi){

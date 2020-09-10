@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e46a9276-81d8-4b4c-b672-2aa4e0bc114b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="9"/>
+	<property name="ireport.y" value="111"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     kalkulasi.`tanggal` AS kalkulasi_tanggal,
+     kalkulasi.`no_reg_sapi` AS kalkulasi_no_reg_sapi,
+     kalkulasi.`pbbh` AS kalkulasi_pbbh,
+     kalkulasi.`jml_hari_rawat` AS kalkulasi_jml_hari_rawat,
+     kalkulasi.`bobot_harap` AS kalkulasi_bobot_harap,
+     kalkulasi.`total_berat_kering` AS kalkulasi_total_berat_kering,
+     kalkulasi.`total_protein_kasar` AS kalkulasi_total_protein_kasar,
+     kalkulasi.`total_energi` AS kalkulasi_total_energi,
+     kalkulasi.`berat_kering_ideal` AS kalkulasi_berat_kering_ideal,
+     kalkulasi.`protein_kasar_ideal` AS kalkulasi_protein_kasar_ideal,
+     kalkulasi.`energi` AS kalkulasi_energi,
+     sapi.`jenis` AS sapi_jenis,
+     sapi.`bobot_awal` AS sapi_bobot_awal,
+     sapi.`no_reg` AS sapi_no_reg,
+     kalkulasi.`id_kalkulasi` AS kalkulasi_id_kalkulasi
+FROM
+     `kalkulasi` kalkulasi,
+     `sapi` sapi]]>
+	</queryString>
+	<field name="kalkulasi_no_reg_sapi" class="java.lang.String"/>
+	<field name="kalkulasi_tanggal" class="java.sql.Date"/>
+	<field name="sapi_jenis" class="java.lang.String"/>
+	<field name="sapi_bobot_awal" class="java.lang.Integer"/>
+	<field name="kalkulasi_pbbh" class="java.lang.Double"/>
+	<field name="kalkulasi_jml_hari_rawat" class="java.lang.Integer"/>
+	<field name="kalkulasi_bobot_harap" class="java.lang.Double"/>
+	<field name="kalkulasi_total_berat_kering" class="java.lang.Double"/>
+	<field name="kalkulasi_total_protein_kasar" class="java.lang.Double"/>
+	<field name="kalkulasi_total_energi" class="java.lang.Double"/>
+	<field name="kalkulasi_berat_kering_ideal" class="java.lang.Double"/>
+	<field name="kalkulasi_protein_kasar_ideal" class="java.lang.Double"/>
+	<field name="kalkulasi_energi" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="60ed3ef6-e626-4eed-912c-c0c30d454b83" x="146" y="17" width="370" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Bahnschrift" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AS SABIL MANAJEMEN QURBAN DAN AQIKAH]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="faf87491-402d-4706-ba81-345d8a04a6a4" x="25" y="24" width="85" height="25"/>
+				<imageExpression><![CDATA["C:\\Users\\HP\\Documents\\NetBeansProjects\\Mapas\\src\\img\\Logo-As-Sabil.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement uuid="f670cbaf-3fbf-4431-aa2a-fd64db13576e" x="132" y="15" width="1" height="60"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="60ed3ef6-e626-4eed-912c-c0c30d454b83" x="146" y="37" width="546" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Jl. Permata 3, Blok i4 no. 50 RT 04/04 Poris Plawad Indah, Cipondoh, Kota Tangerang]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="74" splitType="Stretch">
+			<line>
+				<reportElement uuid="79413aba-c4f5-4f79-92f5-b759c1c8cac5" x="-20" y="-11" width="844" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement uuid="40bac3fa-552a-425a-aec9-b0682e85dd90" x="702" y="54" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d5d25679-8c7e-47bc-ad24-7092bce2efdf" x="350" y="24" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="79413aba-c4f5-4f79-92f5-b759c1c8cac5" x="-21" y="-7" width="844" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="0" y="41" width="73" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="73" y="41" width="108" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="395" y="41" width="38" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="181" y="41" width="137" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="318" y="41" width="77" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="462" y="41" width="89" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="433" y="41" width="29" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="551" y="41" width="66" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="617" y="41" width="85" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="702" y="41" width="43" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="745" y="41" width="55" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="c6106c74-a4de-407e-a3b9-c52aa956ce3a" x="0" y="41" width="73" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO REG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3a86cc5c-daa4-4ee1-b23d-24e2c5268b54" x="73" y="41" width="108" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TANGGAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ec83812d-613d-4846-86ff-de739070305d" x="181" y="41" width="137" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[JENIS SAPI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1f47ce75-236b-49ba-86ab-69b98b2dc46d" x="318" y="41" width="77" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOBOT AWAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="82916ad5-1a2e-4aaa-8d92-39785a6be347" x="395" y="41" width="38" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PBBH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8e001182-7fc1-4098-9f9d-ec7566091abd" x="433" y="41" width="29" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[H-P]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66a7e65f-28b7-49de-ac66-6c23007d54d6" x="462" y="41" width="89" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOBOT HARAPAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5cdb65f9-9196-4acc-918e-d411e45a4bc8" x="551" y="41" width="66" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL PK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7d6e464a-0895-4dde-a2cc-99c8536c878f" x="615" y="41" width="87" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL ENERGI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ccff02b2-4c93-4548-8a84-582b852f837f" x="702" y="41" width="43" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PK MIN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="19e39894-0b74-4a0d-aaa4-aedad7e4beec" x="745" y="41" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[EN MIN]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="702" y="0" width="43" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="745" y="0" width="55" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="617" y="0" width="85" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="551" y="0" width="66" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="462" y="0" width="89" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="433" y="0" width="29" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="395" y="0" width="38" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="318" y="0" width="77" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="181" y="0" width="137" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="73" y="0" width="108" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0e464366-778f-4cb6-878a-ea8605c9b9df" x="0" y="0" width="73" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="809ad4ac-1aef-459f-bfc7-ebe34fbda82d" x="0" y="0" width="73" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_no_reg_sapi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="32d4c4f6-422e-4282-9451-964ee696790d" x="73" y="0" width="108" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_tanggal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="55ca4865-947d-4892-95d4-380ee140f579" x="181" y="0" width="137" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sapi_jenis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="91d9d89e-ee86-4a43-86a6-4320a71711e9" x="318" y="0" width="77" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sapi_bobot_awal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3bc4622b-73b3-4056-95fa-f4d78e1768a7" x="395" y="0" width="38" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_pbbh}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c10a9853-21f8-43f8-b49c-d0c261b0098b" x="433" y="0" width="29" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_jml_hari_rawat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8073dfc4-4130-43dc-97fc-ecd337205bd0" x="462" y="0" width="89" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_bobot_harap}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ecf4ad0f-17c2-4379-8da2-83c21a6e5eeb" x="551" y="0" width="66" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_total_protein_kasar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="166f7a50-8400-48ea-8d40-7ea378d85309" x="617" y="0" width="85" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_total_energi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f41f18c4-34a8-4a40-b800-0dd70c73ce00" x="702" y="0" width="43" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_protein_kasar_ideal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="182cbced-28f8-46d0-abcd-318a3bcf3201" x="745" y="0" width="57" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{kalkulasi_energi}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="88" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement uuid="cf1cf9ac-effa-44ec-a7d6-7662d7f0f8a4" x="350" y="34" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b3a704d0-9890-4f44-ba7d-a6c8e1957dda" x="0" y="34" width="162" height="20"/>
+				<textElement/>
+				<text><![CDATA[Developed.By.Faisal.Fahmi]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="10" splitType="Stretch"/>
+	</summary>
+</jasperReport>
