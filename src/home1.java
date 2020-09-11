@@ -1,7 +1,10 @@
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.DateFormat;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.ModelPakan;
 import model.Persentase;
@@ -44,12 +48,19 @@ public class home1 extends javax.swing.JFrame {
             return false;
         }
     };
-    
+        
     DefaultTableModel tblKalkulasi = new DefaultTableModel() {
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
+    
+    DefaultTableModel tblLaporan = new DefaultTableModel() {
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    
     
     DefaultTableModel tblPakan = new DefaultTableModel() {
         public boolean isCellEditable(int row, int column) {
@@ -64,9 +75,9 @@ public class home1 extends javax.swing.JFrame {
     };
     public home1() {
         initComponents();
-        tampilSapi();
-        tampilPakan();
-        
+        //tampilSapi();
+        //tampilPakan();
+        tampilKalkulasi();
         
         Object []baris = {"Nama Pakan", "Persen"};
         tblInputPakan = new DefaultTableModel(null, baris) {
@@ -76,6 +87,8 @@ public class home1 extends javax.swing.JFrame {
         };
         tbInputPakan.setModel(tblInputPakan);
         aturTextField();
+        
+        viewKalkulasiDetailBySelectedRow(this);
     }
 
     private void aturTextField(){
@@ -198,7 +211,7 @@ public class home1 extends javax.swing.JFrame {
         jPanel37 = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
         jPanel39 = new javax.swing.JPanel();
-        jLabel26 = new javax.swing.JLabel();
+        btnLihatDetail = new javax.swing.JLabel();
         jPanel40 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jPanel41 = new javax.swing.JPanel();
@@ -928,20 +941,25 @@ public class home1 extends javax.swing.JFrame {
         jPanel39.setBackground(new java.awt.Color(153, 0, 0));
         jPanel39.setToolTipText("");
 
-        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel26.setText("TAMBAH");
+        btnLihatDetail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnLihatDetail.setForeground(new java.awt.Color(255, 255, 255));
+        btnLihatDetail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnLihatDetail.setText("LIHAT DETAIL");
+        btnLihatDetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLihatDetailMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel39Layout = new javax.swing.GroupLayout(jPanel39);
         jPanel39.setLayout(jPanel39Layout);
         jPanel39Layout.setHorizontalGroup(
             jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+            .addComponent(btnLihatDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
         );
         jPanel39Layout.setVerticalGroup(
             jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+            .addComponent(btnLihatDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
         );
 
         jPanel38.add(jPanel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 198, 123, -1));
@@ -1373,6 +1391,13 @@ public class home1 extends javax.swing.JFrame {
         simpanPakan();
     }//GEN-LAST:event_tambahKMouseClicked
 
+    private void btnLihatDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLihatDetailMouseClicked
+        // TODO add your handling code here:
+        int baris = tbLaporan.getSelectedRow();
+        String idKalkulasi = tbLaporan.getValueAt(baris,0).toString();
+        new page.KalkulasiDetail(this, rootPaneCheckingEnabled, idKalkulasi).setVisible(true);
+    }//GEN-LAST:event_btnLihatDetailMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1406,6 +1431,21 @@ public class home1 extends javax.swing.JFrame {
                 new home1().setVisible(true);
             }
         });
+    }
+    
+    public void viewKalkulasiDetailBySelectedRow(Frame frame){
+         tbLaporan.addMouseListener(new MouseAdapter() {
+         public void mouseClicked(MouseEvent me) {
+            if (me.getClickCount() == 2) {     // to detect doble click events
+               JTable target = (JTable)me.getSource();
+               int row = target.getSelectedRow(); // select a row
+               int column = target.getSelectedColumn(); // select a column
+               String idKalkulasi = tbLaporan.getValueAt(row,0).toString();
+               new page.KalkulasiDetail(frame, rootPaneCheckingEnabled, idKalkulasi).setVisible(true);
+               
+            }
+         }
+      });
     }
     
     private void setNutrisiByPersentase(ModelPakan calculated, ModelPakan pakan, Map<String,Double> persentase, double rasio){
@@ -1557,6 +1597,49 @@ public class home1 extends javax.swing.JFrame {
         }
     }
     
+      public void tampilKalkulasi() {
+        Object []baris = {"Id Kalkulasi","Tanggal","No Reg", "Jenis Sapi", "Bobot Awal","PBBH", "Jml Hari", "Bobot Harap","Berat Kering",
+                    "Protein","Energi","Total BK","Total BS","Total Protein","Total Energi"};
+        tblLaporan = new DefaultTableModel(null, baris) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tbLaporan.setModel(tblLaporan);
+        try {
+            Connection con = new database.connection().configDB();
+            String sql = "SELECT * FROM kalkulasi as k join sapi as s on s.no_reg = k.no_reg_sapi ORDER BY tanggal ASC";
+            java.sql.Statement stat = con.createStatement();
+            java.sql.ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                String idKalkulasi = hasil.getString("id_kalkulasi");
+                Date tanggal = hasil.getDate("tanggal");
+                String noReg = hasil.getString("no_reg");
+                String jenis = hasil.getString("jenis");
+                String bobotAwal = hasil.getString("bobot_awal");
+                double pbbh = hasil.getDouble("pbbh");
+                int jmlHari = hasil.getInt("jml_hari_rawat");
+                double bobotHarap = hasil.getDouble("bobot_harap");
+                double beratKering = hasil.getDouble("berat_kering_ideal");
+                double proteinKasarIdeal = hasil.getDouble("protein_kasar_ideal");
+                double energiIdeal = hasil.getDouble("energi");
+                double totalBeratKering = hasil.getDouble("total_berat_kering");
+                double totalBeratSegar = hasil.getDouble("total_berat_segar");
+                double totalProteinKasar = hasil.getDouble("total_protein_kasar");
+                double totalEnergi = hasil.getDouble("total_energi");
+                
+                Object[] data = {idKalkulasi, tanggal, noReg, jenis, bobotAwal, pbbh, jmlHari, bobotHarap, 
+                       beratKering,proteinKasarIdeal,energiIdeal,totalBeratKering,totalBeratSegar,totalProteinKasar,totalEnergi};
+                tblLaporan.addRow(data);
+            
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal Menampilkan DATA!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+            dispose();
+        }
+    }
+    
     private void simpanPakan(){
         String idKalkulasi = "ID_KALKULASI";
         String noReg = txtNoReg.getText();
@@ -1569,7 +1652,7 @@ public class home1 extends javax.swing.JFrame {
         double proteinTotal = Double.parseDouble(txtTotalPk.getText());
         double energiTotal = Double.parseDouble(txtTotalEnergi.getText());
         double beratKeringTotal = Double.parseDouble(txtTotalBk.getText());
-        double beratSegarTotal = 100;
+        double beratSegarTotal = Double.parseDouble(txtTotalBs.getText());
         List<ModelPakan> pakanList = new ArrayList();
         for (int i=0; i < tbKalkulasi.getRowCount(); i++){
             ModelPakan pakan = new ModelPakan();
@@ -1582,7 +1665,6 @@ public class home1 extends javax.swing.JFrame {
         }
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date curDate = new java.util.Date();
-        //Date myDate = formatter.parse(curDate);
         java.sql.Date sqlDate = new java.sql.Date(curDate.getTime());
 
         if (empty(idKalkulasi))  {
@@ -1598,7 +1680,7 @@ public class home1 extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Id kalkulasi tidak boleh ada yang sama.", "Kesalahan", JOptionPane.ERROR_MESSAGE);
                 } else {
                     try {
-                        String sql = "INSERT INTO kalkulasi VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        String sql = "INSERT INTO kalkulasi VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         java.sql.PreparedStatement stat = (PreparedStatement)con.prepareStatement(sql);
                         stat.setString(1, idKalkulasi);
                         stat.setDate(2, sqlDate);
@@ -1610,8 +1692,9 @@ public class home1 extends javax.swing.JFrame {
                         stat.setDouble(8, proteinMin);
                         stat.setDouble(9, energiMin);
                         stat.setDouble(10, beratKeringTotal);
-                        stat.setDouble(11, proteinTotal);
-                        stat.setDouble(12, energiTotal);
+                        stat.setDouble(11, beratSegarTotal);
+                        stat.setDouble(12, proteinTotal);
+                        stat.setDouble(13, energiTotal);
                         
                         stat.executeUpdate();
                         
@@ -1652,6 +1735,7 @@ public class home1 extends javax.swing.JFrame {
     private javax.swing.JButton btnInputPakan;
     private javax.swing.JPanel btnKalPak;
     private javax.swing.JPanel btnKalkulasi;
+    private javax.swing.JLabel btnLihatDetail;
     private javax.swing.JComboBox<String> cmbPakan;
     private javax.swing.JPanel footer;
     private javax.swing.JLabel hapusPakan;
@@ -1663,7 +1747,6 @@ public class home1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
