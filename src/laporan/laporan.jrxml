@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e46a9276-81d8-4b4c-b672-2aa4e0bc114b">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="9"/>
-	<property name="ireport.y" value="111"/>
-	<queryString language="SQL">
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parameter1" class="net.sf.jasperreports.types.date.DateRange"/>
+	<queryString>
 		<![CDATA[SELECT
      kalkulasi.`tanggal` AS kalkulasi_tanggal,
      kalkulasi.`no_reg_sapi` AS kalkulasi_no_reg_sapi,
@@ -22,12 +23,12 @@
      kalkulasi.`id_kalkulasi` AS kalkulasi_id_kalkulasi
 FROM
      `kalkulasi` kalkulasi,
-     `sapi` sapi]]>
+     `sapi` sapi
+WHERE sapi.`no_reg` = kalkulasi.`no_reg_sapi`
+ORDER BY kalkulasi.`tanggal` DESC]]>
 	</queryString>
-	<field name="kalkulasi_no_reg_sapi" class="java.lang.String"/>
 	<field name="kalkulasi_tanggal" class="java.sql.Date"/>
-	<field name="sapi_jenis" class="java.lang.String"/>
-	<field name="sapi_bobot_awal" class="java.lang.Integer"/>
+	<field name="kalkulasi_no_reg_sapi" class="java.lang.String"/>
 	<field name="kalkulasi_pbbh" class="java.lang.Double"/>
 	<field name="kalkulasi_jml_hari_rawat" class="java.lang.Integer"/>
 	<field name="kalkulasi_bobot_harap" class="java.lang.Double"/>
@@ -37,6 +38,10 @@ FROM
 	<field name="kalkulasi_berat_kering_ideal" class="java.lang.Double"/>
 	<field name="kalkulasi_protein_kasar_ideal" class="java.lang.Double"/>
 	<field name="kalkulasi_energi" class="java.lang.Double"/>
+	<field name="sapi_jenis" class="java.lang.String"/>
+	<field name="sapi_bobot_awal" class="java.lang.Integer"/>
+	<field name="sapi_no_reg" class="java.lang.String"/>
+	<field name="kalkulasi_id_kalkulasi" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

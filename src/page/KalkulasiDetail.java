@@ -24,8 +24,8 @@ public class KalkulasiDetail extends javax.swing.JDialog {
     /** Creates new form kalkulasiDetail */
     public KalkulasiDetail(java.awt.Frame parent, boolean modal, String idKalkulasi) {
         super(parent, modal);
-        tampilDetail(idKalkulasi);
         initComponents();
+        tampilDetail(idKalkulasi);
     }
 
     /** This method is called from within the constructor to
@@ -39,8 +39,12 @@ public class KalkulasiDetail extends javax.swing.JDialog {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbKalkulasiDetail = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        btnClose = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbKalkulasiDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -59,25 +63,60 @@ public class KalkulasiDetail extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tbKalkulasiDetail);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 520, 150));
+
+        jPanel1.setBackground(new java.awt.Color(153, 0, 0));
+
+        btnClose.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnClose.setForeground(new java.awt.Color(255, 255, 255));
+        btnClose.setText("X");
+        btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCloseMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(522, Short.MAX_VALUE)
+                .addComponent(btnClose)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 40));
+
+        jPanel2.setBackground(new java.awt.Color(153, 0, 0));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 540, Short.MAX_VALUE)
         );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCloseMouseClicked
 
     /**
      * @param args the command line arguments
@@ -124,7 +163,8 @@ public class KalkulasiDetail extends javax.swing.JDialog {
     
     private void tampilDetail(String id){
         
-        Object []baris = {"No", "Id Pakan", "Nama Pakan", "Jenis Pakan", "Berat Segar","Berat Kering", "Protein Kasar", "Energi"};
+        Object []baris = {"Id Pakan", "Nama Pakan", "Jenis Pakan", "Berat Segar","Berat Kering", "Protein Kasar", "Energi"};
+        
         tblKalkulasiDetail = new DefaultTableModel(null, baris) {
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -134,11 +174,11 @@ public class KalkulasiDetail extends javax.swing.JDialog {
          try {
             Connection con = new database.connection().configDB();
             String sql = "SELECT kd.id_pakan, p.nama_pakan, p.jenis_pakan, kd.protein_kasar, kd.berat_kering, kd.berat_segar, kd.energi "
-                    + "FROM `kalkulasi_detail` kd JOIN pakan p on kd.id_pakan = p.id_pakan WHERE kd.id_kalkulasi = "+id+"";
+                    + "FROM kalkulasi_detail kd JOIN pakan p on kd.id_pakan = p.id_pakan WHERE kd.id_kalkulasi = '"+id+"'";
             java.sql.Statement stat = con.createStatement();
             java.sql.ResultSet hasil = stat.executeQuery(sql);
             
-            if (hasil.next()) {
+            while (hasil.next()) {
          
                 Object[] data = {hasil.getString("id_pakan"),hasil.getString("nama_pakan"),hasil.getString("jenis_pakan"),
                     hasil.getString("berat_segar"),hasil.getString("berat_kering"),hasil.getString("protein_kasar"),
@@ -152,6 +192,9 @@ public class KalkulasiDetail extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnClose;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbKalkulasiDetail;
     // End of variables declaration//GEN-END:variables
