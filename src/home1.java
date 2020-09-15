@@ -91,6 +91,7 @@ public class home1 extends javax.swing.JFrame {
         tampilSapi();
         tampilPakan();
         tampilKalkulasi();
+        autoNumber();
         
         Object []baris = {"Nama Pakan", "Persen"};
         tblInputPakan = new DefaultTableModel(null, baris) {
@@ -278,12 +279,12 @@ public class home1 extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jTabbedPane1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jTabbedPane1AncestorMoved(evt);
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-                jTabbedPane1AncestorMoved(evt);
             }
         });
 
@@ -329,6 +330,11 @@ public class home1 extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("HAPUS");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -585,7 +591,7 @@ public class home1 extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel43)
@@ -625,6 +631,12 @@ public class home1 extends javax.swing.JFrame {
 
         jLabel12.setText("ID Kalkulasi");
         jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, -1));
+
+        txtIdKalkulasi.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtIdKalkulasiKeyPressed(evt);
+            }
+        });
         jPanel4.add(txtIdKalkulasi, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 100, -1));
         jPanel4.add(txtTotalBs, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 510, 60, -1));
 
@@ -1460,6 +1472,18 @@ public class home1 extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnBersihMouseClicked
 
+    private void txtIdKalkulasiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKalkulasiKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            tampilKalkulasiById(txtIdKalkulasi.getText());
+        }
+    }//GEN-LAST:event_txtIdKalkulasiKeyPressed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+         hapusKalkulasi(txtIdKalkulasi.getText());
+    }//GEN-LAST:event_jLabel4MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1591,6 +1615,74 @@ public class home1 extends javax.swing.JFrame {
         
         return indeksPakan;
     }
+    
+    public void hapusKalkulasi(String id){
+        try {
+            Connection con = new database.connection().configDB();
+            String sql = "DELETE FROM kalkulasi WHERE id_kalkulasi = '"+id+"'";
+            java.sql.Statement st = con.createStatement();
+            st.executeUpdate(sql);
+            //delete Kalkulasi Detail
+            String sql2 = "DELETE FROM kalkulasi_detail WHERE id_kalkulasi = '"+id+"'";
+            java.sql.Statement st2 = con.createStatement();
+            st2.executeUpdate(sql2);
+            JOptionPane.showMessageDialog(null, "Data berhasil dihapus!", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal Menghapus DATA!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+            dispose();
+        }
+    }
+    
+    public void  tampilKalkulasiById(String id){
+         try {
+            Connection con = new database.connection().configDB();
+            String sql = "SELECT * FROM kalkulasi as k join sapi as s on s.no_reg = k.no_reg_sapi WHERE k.id_kalkulasi = '"+id+"'";
+            java.sql.Statement stat = con.createStatement();
+            java.sql.ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+               
+                txtNoReg.setText(hasil.getString("no_reg"));
+                txtJenisSapi.setText(hasil.getString("jenis"));
+                txtBobotAwal.setText(hasil.getString("bobot_awal"));
+                txtPbbh.setText(hasil.getString("pbbh"));
+                txtJmlHari.setText(hasil.getString("jml_hari_rawat"));
+                txtBobotHarapan.setText(hasil.getString("bobot_harap"));
+                txtBeratKering.setText(hasil.getString("berat_kering_ideal"));
+                txtProteinKasar.setText(hasil.getString("protein_kasar_ideal"));
+                txtEnergi.setText(hasil.getString("energi"));
+                txtTotalBk.setText(hasil.getString("total_berat_kering"));
+                txtTotalBs.setText(hasil.getString("total_berat_segar"));
+                txtTotalPk.setText(hasil.getString("total_protein_kasar"));
+                txtTotalEnergi.setText(hasil.getString("total_energi"));
+                
+            }
+            
+            
+            String sql2 = "SELECT kd.id_pakan, p.nama_pakan, p.jenis_pakan, kd.protein_kasar, kd.berat_kering, kd.berat_segar, kd.energi "
+                    + "FROM kalkulasi_detail kd JOIN pakan p on kd.id_pakan = p.id_pakan WHERE kd.id_kalkulasi = '"+id+"'";
+            java.sql.Statement stat2 = con.createStatement();
+            java.sql.ResultSet hasil2 = stat2.executeQuery(sql2);
+            int i  = 0;
+            Object []baris = {"No", "Id Pakan", "Nama Pakan", "Jenis Pakan", "Berat Segar", "Berat Kering", "Protein Kasar", "Energi"};
+            tblKalkulasi = new DefaultTableModel(null, baris) {
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tbKalkulasi.setModel(tblKalkulasi);
+            while (hasil2.next()) {
+                Object[] data = {i++,hasil2.getString("id_pakan"),hasil2.getString("nama_pakan"),hasil2.getString("jenis_pakan"),
+                    hasil2.getString("berat_segar"),hasil2.getString("berat_kering"),hasil2.getString("protein_kasar"),
+                       hasil2.getString("energi")};
+                tblKalkulasi.addRow(data);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal Menampilkan DATA!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+            dispose();
+        }
+    }
 
     
     public void tampilSapi() {
@@ -1698,6 +1790,42 @@ public class home1 extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Gagal Menampilkan DATA!", "Kesalahan", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
             dispose();
+        }
+    }
+      
+       public void autoNumber() {
+        try {
+            Connection con = new database.connection().configDB();
+            String sql = "SELECT * FROM kalkulasi ORDER BY id_kalkulasi DESC";
+            java.sql.Statement stat = con.createStatement();
+            java.sql.ResultSet hasil = stat.executeQuery(sql);
+            if (hasil.next()) {
+                String kd_barang = hasil.getString("id_kalkulasi").substring(1);
+                String AN = "" + (Integer.parseInt(kd_barang) + 1);
+                String Nol = "";
+
+                switch (AN.length()) {
+                    case 1:
+                        Nol = "000";
+                        break;
+                    case 2:
+                        Nol = "00";
+                        break;
+                    case 3:
+                        Nol = "0";
+                        break;
+                    case 4:
+                        Nol = "";
+                        break;
+                    default:
+                        break;
+                }
+                txtIdKalkulasi.setText("K" + Nol + AN);//sesuaikan dengan variable namenya
+            } else {
+                txtIdKalkulasi.setText("K0001");//sesuaikan dengan variable namenya
+            }
+        } catch (Exception e) {
+            e.printStackTrace();//penanganan masalah
         }
     }
     
